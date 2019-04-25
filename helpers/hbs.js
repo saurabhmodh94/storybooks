@@ -16,5 +16,18 @@ module.exports = {
   }, // TODO: understand
   formatDate: function(date, format) {
     return moment(date).format(format); // tip
+  },
+  select: function(selected, options) {
+    return options
+      .fn(this)
+      .replace(new RegExp('selected'), '') // tip: improved sol. from course
+      .replace(
+        new RegExp(' value="' + selected + '"'),
+        '$& selected="selected"'
+      )
+      .replace(
+        new RegExp('>' + selected + '</option>'),
+        ' selected="selected"$&'
+      );
   }
 };

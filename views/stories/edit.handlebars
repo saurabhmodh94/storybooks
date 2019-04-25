@@ -10,9 +10,11 @@
   <div class="row">
     <div class="input-field">
       <select name="status">
+        {{#select story.status}}
         <option value="public">Public</option>
         <option value="private">Private</option>
         <option value="unpublished" selected>Unpublished</option>
+        {{/select}}
       </select>
       <label for="status">Status</label>
     </div>

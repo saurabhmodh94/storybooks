@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 const keys = require('./config/keys');
 
 // Handlebars Helpers
-const { truncate, stripTags, formatDate } = require('./helpers/hbs');
+const { truncate, stripTags, formatDate, select } = require('./helpers/hbs');
 
 // Express session middleware
 app.use(
@@ -59,7 +59,8 @@ app.engine(
     helpers: {
       truncate,
       stripTags,
-      formatDate
+      formatDate,
+      select
     },
     defaultLayout: 'main'
   })
