@@ -22,6 +22,9 @@ app.use(bodyParser.json());
 // Load Keys
 const keys = require('./config/keys');
 
+// Handlebars Helpers
+const { truncate, stripTags, formatDate } = require('./helpers/hbs');
+
 // Express session middleware
 app.use(
   session({
@@ -53,6 +56,11 @@ mongoose
 app.engine(
   'handlebars',
   exphbs({
+    helpers: {
+      truncate,
+      stripTags,
+      formatDate
+    },
     defaultLayout: 'main'
   })
 );
