@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const exphbs = require('express-handlebars');
 const passport = require('passport');
 const session = require('express-session');
 
@@ -40,6 +41,15 @@ mongoose
   })
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
+
+// Handlebars Middleware
+app.engine(
+  'handlebars',
+  exphbs({
+    defaultLayout: 'main'
+  })
+);
+app.set('view engine', 'handlebars');
 
 // Load Routes
 const auth = require('./routes/auth');
