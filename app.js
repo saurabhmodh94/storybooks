@@ -4,8 +4,22 @@ const passport = require('passport');
 
 const app = express();
 
+// Load Models
+require('./models/User');
+
 // Passport Config
 require('./config/passport')(passport);
+
+// Load Keys
+const keys = require('./config/keys');
+
+// Mongoose Connect
+mongoose
+  .connect(keys.mongoURI, {
+    useNewUrlParser: true // to get rid of warning
+  })
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
 
 // Load Routes
 const auth = require('./routes/auth');
