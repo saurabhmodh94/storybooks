@@ -7,7 +7,14 @@ const Story = mongoose.model('stories');
 
 // Stories Index
 router.get('/', (req, res) => {
-  res.render('stories/index');
+  Story.find({ status: 'public' })
+    .populate('user') // tip: prefetch_related
+    .sort({ date: 'desc' })
+    .then(stories => {
+      res.render('stories/index', {
+        stories: stories
+      });
+    });
 });
 
 // Add Story Form
