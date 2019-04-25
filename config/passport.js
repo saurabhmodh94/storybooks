@@ -20,7 +20,9 @@ module.exports = function(passport) {
 
         const image = profile.photos[0].value.substring(
           0,
-          profile.photos[0].value.indexOf('?')
+          profile.photos[0].value.indexOf('?') !== -1
+            ? profile.photos[0].value.indexOf('?')
+            : profile.photos[0].value.length
         ); // to remove default img size. ?sz=50
 
         const newUser = {
