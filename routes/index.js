@@ -10,4 +10,8 @@ router.get('/dashboard', (req, res) => {
   res.send('dashboard');
 });
 
+router.get('/about', (req, res) => {
+  res.render('index/about');
+});
+
 module.exports = router;

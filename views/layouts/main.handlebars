@@ -10,14 +10,22 @@
   <!-- font-awesome -->
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
     integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <!-- custom -->
+  <link rel="stylesheet" href="css/style.css">
   <title>StoryBooks</title>
 </head>
 
 <body>
-
-  <div class="container">
-    {{{body}}}
-  </div>
+  {{> _header}}
+  {{#if user}}
+  {{> _add-btn}}
+  {{/if}}
+  <main>
+    <div class="container">
+      {{{body}}}
+    </div>
+  </main>
+  {{> _footer}}
 
   <!-- jquery -->
   <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
@@ -25,6 +33,12 @@
     </script>
   <!-- materialize -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <!-- custom -->
+  <script>
+    $(document).ready(() => {
+      $('.button-collapse').sideNav();
+    });
+  </script>
 </body>
 
 </html>
