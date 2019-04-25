@@ -29,5 +29,12 @@ module.exports = {
         new RegExp('>' + selected + '</option>'),
         ' selected="selected"$&'
       );
+  },
+  editIcon: function(storyUser, loggedUser, storyId, floating = true) {
+    return storyUser == loggedUser
+      ? `<a href="/stories/edit/${storyId}" class="${
+          floating ? 'btn-floating halfway-fab red' : ''
+        }"><i class="fa fa-pencil"></i></a>`
+      : '';
   }
 };

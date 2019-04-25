@@ -17,6 +17,28 @@ router.get('/', (req, res) => {
     });
 });
 
+// List stories from a user
+router.get('/user/:userId', (req, res) => {
+  Story.find({ user: req.params.userId, status: 'public' })
+    .populate('user')
+    .then(stories => {
+      res.render('stories/index', {
+        stories: stories
+      });
+    });
+});
+
+// Logged in users stories
+router.get('/my', ensureAuthenticated, (req, res) => {
+  Story.find({ user: req.user.id })
+    .populate('user')
+    .then(stories => {
+      res.render('stories/index', {
+        stories: stories
+      });
+    });
+});
+
 // Add Story Form
 router.get('/add', ensureAuthenticated, (req, res) => {
   res.render('stories/add');
@@ -30,9 +52,16 @@ router.get('/show/:id', (req, res) => {
     .populate('user')
     .populate('comments.commentUser')
     .then(story => {
-      res.render('stories/show', {
-        story: story
-      });
+      if (
+        story.status == 'public' ||
+        (req.user && req.user.id == story.user._id)
+      ) {
+        res.render('stories/show', {
+          story: story
+        });
+      } else {
+        res.redirect('/stories');
+      }
     });
 });
 
@@ -41,14 +70,18 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
   Story.findOne({
     _id: req.params.id
   }).then(story => {
-    res.render('stories/edit', {
-      story: story
-    });
+    if (story.user != req.user.id) {
+      res.redirect('/stories');
+    } else {
+      res.render('stories/edit', {
+        story: story
+      });
+    }
   });
 });
 
 // Process Add Story
-router.post('/', (req, res) => {
+router.post('/', ensureAuthenticated, (req, res) => {
   const newStory = {
     title: req.body.title,
     body: req.body.body,
@@ -64,7 +97,7 @@ router.post('/', (req, res) => {
 });
 
 // Edit Form Process
-router.put('/:id', (req, res) => {
+router.put('/:id', ensureAuthenticated, (req, res) => {
   Story.findOne({
     _id: req.params.id
   }).then(story => {
@@ -81,14 +114,14 @@ router.put('/:id', (req, res) => {
 });
 
 // Delete Story
-router.delete('/:id', (req, res) => {
+router.delete('/:id', ensureAuthenticated, (req, res) => {
   Story.deleteOne({ _id: req.params.id }).then(() => {
     res.redirect('/dashboard');
   });
 });
 
 // Add Comment
-router.post('/comment/:id', (req, res) => {
+router.post('/comment/:id', ensureAuthenticated, (req, res) => {
   Story.findOne({
     _id: req.params.id
   }).then(story => {
